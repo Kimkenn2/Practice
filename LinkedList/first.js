@@ -22,7 +22,8 @@ class LinkedList {
     constructor(value){
         this.head = {
             value: value,
-            next: null
+            next: null,
+            prev: null
         }
         this.tail = this.head;
         this.length = 1;
@@ -30,17 +31,21 @@ class LinkedList {
     append(value) {
         // let node = new this.Node(data)
         const newNode = new Node(value)
+        newNode.prev = this.tail
         this.tail.next = newNode;
         this.tail = newNode
         this.length++
-        // return this;
+        return this
+        // console.log(this);
     }
 
     prepend(value) {
         const newNode = new Node(value)
+        this.head.prev = newNode
         newNode.next = this.head
         this.head = newNode
         this.length++
+        // console.log(this)
         return this
     }
     printList() {
@@ -60,8 +65,13 @@ class LinkedList {
         }
         const newNode = new Node(value)
         const leader  = this.traverseToIndex(index-1)
-        newNode.next = leader.next
+        const follower = leader.next
+        newNode.prev = leader
+        newNode.next = follower
+        follower.prev = newNode
         leader.next = newNode
+        this.length++
+        console.log(this)
     }
     traverseToIndex(index) {
         let counter = 0;
@@ -74,8 +84,11 @@ class LinkedList {
     }
     remove(index) {
         const leader = this.traverseToIndex(index-1)
-        leader.next = leader.next.next
+        const replacement = leader.next.next
+        leader.next = replacement
+        replacement.prev = leader
         this.length--;
+        // console.log(replacement)
     }
 }
 
@@ -84,11 +97,11 @@ myLinkedList.append(5)
 myLinkedList.append(16)
 myLinkedList.prepend(1)
 // myLinkedList.prepend(1515)
-myLinkedList.insert(2, 99)
-myLinkedList.insert(1, 414)
-myLinkedList.insert(152125, 1)
+myLinkedList.insert(1, 99)
+// myLinkedList.insert(1, 414)
+// myLinkedList.insert(152125, 1)
 myLinkedList.printList()
-myLinkedList.remove(2)
+// myLinkedList.remove(2)
 myLinkedList.remove(2)
 myLinkedList.printList()
 // console.log(myLinkedList)
