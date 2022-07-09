@@ -1,0 +1,5 @@
+class Solution {
+    diagonal(root){
+        
+    }
+}
